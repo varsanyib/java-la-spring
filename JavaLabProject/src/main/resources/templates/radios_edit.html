@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Magyarországi FM rádióadók</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/assets/css/custom_table.css}" />
+</head>
+
+<body class="homepage is-preload">
+<div id="page-wrapper">
+
+    <!-- Header + Nav -->
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div th:replace="~{fragments/header :: nav}"></div>
+
+    <!-- Main -->
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-10">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4" style="color:#246;">
+                            Rádió szerkesztése
+                        </h2>
+                        <form method="post"
+                              th:action="@{'/radios/edit/' + ${radio.id}}">
+                            <div class="mb-3">
+                                <label for="name" class="form-label fw-semibold">Név</label>
+                                <input type="text"
+                                       id="name"
+                                       name="name"
+                                       class="form-control"
+                                       th:value="${radio.name}"
+                                       required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="town_name" class="form-label fw-semibold">Település</label>
+                                <select id="town_name"
+                                        name="town_name"
+                                        class="form-control"
+                                        required>
+                                    <option th:each="town : ${towns}"
+                                            th:value="${town.name}"
+                                            th:selected="${town.name == radio.townName}"
+                                            th:text="${town.name + ' (' + town.countyName + ')'}">
+                                        Település (megye)
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="frequency" class="form-label fw-semibold">
+                                    Frekvencia (MHz)
+                                </label>
+                                <input type="number"
+                                       id="frequency"
+                                       name="frequency"
+                                       step="0.01"
+                                       min="0"
+                                       class="form-control"
+                                       th:value="${radio.frequency}"
+                                       required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="power" class="form-label fw-semibold">
+                                    Teljesítmény (kW)
+                                </label>
+                                <input type="number"
+                                       id="power"
+                                       name="power"
+                                       step="0.01"
+                                       min="0"
+                                       class="form-control"
+                                       th:value="${radio.power}"
+                                       required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="address" class="form-label fw-semibold">Cím</label>
+                                <input type="text"
+                                       id="address"
+                                       name="address"
+                                       class="form-control"
+                                       th:value="${radio.address != null ? radio.address : ''}">
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit"
+                                        class="btn btn-success px-4">Mentés</button>
+                                <a th:href="@{/radios}"
+                                   class="btn btn-secondary ms-3 px-4">Mégse</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</div>
+
+<!-- Scripts -->
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/jquery.dropotron.min.js}"></script>
+<script th:src="@{/assets/js/jquery.scrolly.min.js}"></script>
+<script th:src="@{/assets/js/browser.min.js}"></script>
+<script th:src="@{/assets/js/breakpoints.min.js}"></script>
+<script th:src="@{/assets/js/util.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+
+</body>
+</html>

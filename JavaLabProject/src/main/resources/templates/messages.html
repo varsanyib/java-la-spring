@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Magyarországi FM rádióadók</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/assets/css/custom_table.css}" />
+</head>
+
+<body class="homepage is-preload">
+<div id="page-wrapper">
+
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div th:replace="~{fragments/header :: nav}"></div>
+
+    <!-- Main -->
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4" style="color:#246;">
+                            Beérkezett üzenetek
+                            <span th:if="${user != null and !user.admin}">
+                                (Saját üzenetek)
+                            </span>
+                        </h2>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered align-middle">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>Név</th>
+                                    <th>Felhasználónév</th>
+                                    <th>Tárgy</th>
+                                    <th>Üzenet</th>
+                                    <th>Elküldés időpontja</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- Ha nincs üzenet -->
+                                <tr th:if="${messages == null or #lists.isEmpty(messages)}">
+                                    <td colspan="5" class="text-center text-muted">
+                                        Nincs megjeleníthető üzenet.
+                                    </td>
+                                </tr>
+
+                                <!-- Üzenetek listázása -->
+                                <tr th:each="msg : ${messages}">
+                                    <td th:text="${msg.name}">Név</td>
+                                    <td th:text="${msg.username != null ? msg.username : '-'}">Felhasználónév</td>
+                                    <td th:text="${msg.subject}">Tárgy</td>
+                                    <td style="max-width:380px; word-break:break-word;"
+                                        th:text="${msg.body}">Üzenet szövege</td>
+                                    <td th:text="${msg.createdAt != null ? msg.createdAt : 'nincs adat'}">
+                                        dátum/idő
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div> <!-- card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</div>
+
+<!-- Scripts -->
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/jquery.dropotron.min.js}"></script>
+script th:src="@{/assets/js/jquery.scrolly.min.js}"></script>
+<script th:src="@{/assets/js/browser.min.js}"></script>
+<script th:src="@{/assets/js/breakpoints.min.js}"></script>
+<script th:src="@{/assets/js/util.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+
+</body>
+</html>
