@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Magyarországi FM rádióadók</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/assets/css/custom_table.css}" />
+</head>
+
+<body class="homepage is-preload">
+<div id="page-wrapper">
+
+    <!-- Header + Nav -->
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div th:replace="~{fragments/header :: nav}"></div>
+
+    <!-- Main -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-10">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4" style="color:#246;">Statisztikák</h2>
+
+                        <div class="d-flex flex-column align-items-center">
+
+                            <!-- Összes rádióadó száma -->
+                            <div class="mb-4">
+                                <span class="fw-bold text-secondary">Regisztrált rádióadók száma:</span>
+                                <span class="fs-3 fw-bold ms-2 text-primary">
+                                    <span th:text="${count}">0</span> db
+                                </span>
+                            </div>
+
+                            <!-- Legutóbb hozzáadott rádióadó -->
+                            <div class="card border-info" style="width: 100%;">
+                                <div class="card-header bg-info text-white">
+                                    Legutóbb hozzáadott rádióadó
+                                </div>
+                                <div class="card-body">
+                                    <div th:if="${newest != null}">
+                                        <h5 class="card-title mb-3 text-primary">
+                                            <span th:text="${newest.name}">Rádió neve</span>
+                                            <span th:if="${newest.townName != null}">
+                                                —
+                                                <span th:text="${newest.townName}">Település</span>
+                                            </span>
+                                        </h5>
+
+                                        <ul class="list-group list-group-flush text-dark mb-3">
+                                            <li class="list-group-item">
+                                                <span class="fw-semibold">Frekvencia:</span>
+                                                <span th:text="${newest.frequency}">0.0</span> MHz
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="fw-semibold">Teljesítmény:</span>
+                                                <span th:text="${newest.power}">0</span> kW
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="fw-semibold">Cím:</span>
+                                                <span th:text="${newest.address != null ? newest.address : '-'}">-</span>
+                                            </li>
+                                        </ul>
+
+                                        <div class="text-end text-muted small">
+                                            <span>Rögzítés dátuma:
+                                                <span th:text="${newest.createdAt}">N/A</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <p class="card-text" th:if="${newest == null}">
+                                        Még nincs rádióadó rögzítve.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Megyénkénti rádióadók – Chart.js -->
+                            <div class="card shadow-sm mt-4" style="width: 100%;">
+                                <div class="card-header bg-secondary text-white">
+                                    Megyénkénti rádióadók száma
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="countyChart" height="120"></canvas>
+                                </div>
+                            </div>
+
+                        </div> <!-- /d-flex -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</div>
+
+<!-- Scripts -->
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/jquery.dropotron.min.js}"></script>
+<script th:src="@{/assets/js/jquery.scrolly.min.js}"></script>
+<script th:src="@{/assets/js/browser.min.js}"></script>
+<script th:src="@{/assets/js/breakpoints.min.js}"></script>
+<script th:src="@{/assets/js/util.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const countyLabels = /*[[${countyNames}]]*/ ["Budapest", "Pest", "Baranya"];
+    const countyData   = /*[[${countyCounts}]]*/ [12, 8, 5];
+
+    const ctx = document.getElementById('countyChart').getContext('2d');
+    const countyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: countyLabels,
+            datasets: [{
+                label: 'Rádióadók száma',
+                data: countyData,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    ticks: {
+                        autoSkip: false
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    precision: 0,
+                    title: {
+                        display: true,
+                        text: 'Darabszám'
+                    }
+                }
+            }
+        }
+    });
+    /*]]>*/
+</script>
+
+</body>
+</html>

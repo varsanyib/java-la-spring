@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Magyarországi FM rádióadók</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/assets/css/custom_table.css}" />
+</head>
+
+<body class="homepage is-preload">
+<div id="page-wrapper">
+
+    <!-- Header + Nav -->
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div th:replace="~{fragments/header :: nav}"></div>
+
+    <!-- Main -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="card shadow-sm">
+
+                    <!-- Sikeres küldés üzenet -->
+                    <div class="alert alert-success text-center"
+                         th:if="${success}">
+                        Üzenet sikeresen elküldve!
+                    </div>
+
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4" style="color:#246;">
+                            Kapcsolatfelvételi űrlap
+                        </h2>
+
+                        <form method="post" th:action="@{/contact}">
+                            <div class="mb-3">
+                                <label for="name" class="form-label fw-semibold">Teljes név</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="name"
+                                       name="name"
+                                       th:value="${user != null} ? ${user.name} : ''"
+                                       th:attr="required=${user == null} ? 'required' : null">
+                            </div>
+
+
+
+                            <div class="mb-3">
+                                <label for="subject" class="form-label fw-semibold">Tárgy</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="subject"
+                                       name="subject"
+                                       required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="message" class="form-label fw-semibold">Üzenet</label>
+                                <textarea class="form-control"
+                                          id="message"
+                                          name="message"
+                                          rows="5"
+                                          required
+                                          maxlength="1000"></textarea>
+                            </div>
+
+                            <!-- Bejelentkezett user esetén hidden userId -->
+                            <input type="hidden"
+                                   name="userId"
+                                   th:if="${user != null}"
+                                   th:value="${user.id}"/>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary px-4">
+                                    Üzenet küldése
+                                </button>
+                            </div>
+                        </form>
+
+                    </div> <!-- card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</div>
+
+<!-- Scripts -->
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/jquery.dropotron.min.js}"></script>
+<script th:src="@{/assets/js/jquery.scrolly.min.js}"></script>
+<script th:src="@{/assets/js/browser.min.js}"></script>
+<script th:src="@{/assets/js/breakpoints.min.js}"></script>
+<script th:src="@{/assets/js/util.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+
+</body>
+</html>
