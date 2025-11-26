@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+</head>
+
+<body>
+<!-- Header -->
+<header id="header" th:fragment="header">
+    <div class="logo container">
+        <div>
+            <p>Magyarországi FM rádióadók gyűjtőoldala</p>
+        </div>
+    </div>
+</header>
+
+<!-- Nav -->
+<nav id="nav" th:fragment="nav">
+    <ul>
+        <li><a href="/index" th:href="@{/index}">Kezdőlap</a></li>
+        <li><a href="/statistics" th:href="@{/statistics}">Statisztikák</a></li>
+        <li><a href="/contact" th:href="@{/contact}">Kapcsolat</a></li>
+
+        <!-- Ha bejelentkezett felhasználó -->
+        <th:block th:if="${user != null}">
+            <li><a href="/radios" th:href="@{/radios}">Rádióadók</a></li>
+            <li><a href="/messages" th:href="@{/messages}">Üzenetek</a></li>
+
+            <!-- Admin menü - csak adminisztrátornak -->
+            <li th:if="${user.isAdmin == 1}">
+                <a href="/admin" th:href="@{/admin}">Admin</a>
+            </li>
+
+            <li><a href="/auth/logout" th:href="@{/auth/logout}">Kijelentkezés</a></li>
+        </th:block>
+
+        <!-- Ha nem bejelentkezett -->
+        <th:block th:unless="${user != null}">
+            <li><a href="/auth/login" th:href="@{/auth/login}">Bejelentkezés</a></li>
+            <li><a href="/auth/register" th:href="@{/auth/register}">Regisztráció</a></li>
+        </th:block>
+    </ul>
+</nav>
+
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Magyarországi FM rádióadók</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}" />
+</head>
+
+<body class="homepage is-preload">
+<div id="page-wrapper">
+    
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div th:replace="~{fragments/header :: nav}"></div>
+
+    <!-- Banner -->
+    <section id="banner">
+        <div class="content">
+            <h2>FM rádióadók országos adatbázisa</h2>
+            <p>Találd meg Magyarország összes FM rádióadóját, nézz statisztikákat, vagy adj hozzá új rádiót
+                regisztrált felhasználóként!</p>
+            <div th:if="${user == null}">
+                <a href="/auth/register" class="button scrolly">Csatlakozz hozzánk!</a>
+            </div>
+            <div th:unless="${user == null}">
+                <a href="/radios" class="button scrolly">Rádióadók böngészése</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section id="main">
+        <div class="container">
+            <div class="row gtr-200">
+                <div class="col-12">
+                    <section class="box highlight">
+                        <ul class="special">
+                            <li><span class="icon solid fa-broadcast-tower"></span></li>
+                            <li><span class="icon solid fa-chart-bar"></span></li>
+                            <li><span class="icon solid fa-user-plus"></span></li>
+                            <li><span class="icon solid fa-envelope"></span></li>
+                        </ul>
+                        <header>
+                            <h2>Miért jó az oldal?</h2>
+                            <p>Könnyen kereshető és bővíthető magyar FM rádiólista, közösségi hozzájárulás,
+                                részletes statisztikák.</p>
+                        </header>
+                        <p>
+                            Regisztrált felhasználóként új rádióadókat tudsz hozzáadni vagy meglévőeket módosítani.
+                            Adminisztrátorként szerkesztési és törlési jogosultságod is van.
+                            Vendégként az adatbázis statisztikáit böngészheted.
+                        </p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Fragment -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</div>
+
+<!-- Scripts -->
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/jquery.dropotron.min.js}"></script>
+<script th:src="@{/assets/js/jquery.scrolly.min.js}"></script>
+<script th:src="@{/assets/js/browser.min.js}"></script>
+<script th:src="@{/assets/js/breakpoints.min.js}"></script>
+<script th:src="@{/assets/js/util.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+
+</body>
+
+</html>
