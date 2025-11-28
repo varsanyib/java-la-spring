@@ -1,6 +1,8 @@
 package hu.gamf.javalabproject.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -11,9 +13,15 @@ public class Radio {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column(name = "town_name")
+    @NotNull
     private String townName;
+    @NotNull
     private String name;
+    @NotNull
+    @Min(0)
     private Double frequency;
+    @NotNull
+    @Min(0)
     private Double power;
     private String address;
     @Column(name = "created_at", insertable = false, updatable = false)

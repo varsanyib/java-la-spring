@@ -4,10 +4,12 @@ import hu.gamf.javalabproject.models.Radio;
 import hu.gamf.javalabproject.models.TownDTO;
 import hu.gamf.javalabproject.repositories.RadioInterfaceRepo;
 import hu.gamf.javalabproject.repositories.TownInterfaceRepo;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.oauth2.client.OAuth2ClientSecurityMarker;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -70,7 +72,12 @@ public class RadiosController {
     }
 
     @PostMapping("/create")
-    public String saveRadio(@ModelAttribute("radio") Radio radio) {
+    public String saveRadio(@Valid @ModelAttribute("radio") Radio radio, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("towns", townRepo.findAll());
+            model.addAttribute("radio", radio);
+            return "radios_create";
+        }
         radioRepo.save(radio);
         return "redirect:/radios";
     }
