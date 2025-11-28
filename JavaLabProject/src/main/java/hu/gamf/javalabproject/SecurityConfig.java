@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/radios/delete/**").hasRole("ADMIN")
                         .requestMatchers("/messages/**", "/radios/**", "/admin/**", "/profile/**").authenticated()
                         .anyRequest().permitAll()
                 )

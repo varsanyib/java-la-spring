@@ -28,26 +28,26 @@
                             Rádió szerkesztése
                         </h2>
                         <form method="post"
-                              th:action="@{'/radios/edit/' + ${radio.id}}">
+                              th:action="@{'/radios/edit/' + ${radio.id}}"
+                              th:object="${radio}">
+
                             <div class="mb-3">
                                 <label for="name" class="form-label fw-semibold">Név</label>
                                 <input type="text"
                                        id="name"
-                                       name="name"
                                        class="form-control"
-                                       th:value="${radio.name}"
+                                       th:field="*{name}"
                                        required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="town_name" class="form-label fw-semibold">Település</label>
                                 <select id="town_name"
-                                        name="town_name"
                                         class="form-control"
+                                        th:field="*{townName}"
                                         required>
                                     <option th:each="town : ${towns}"
                                             th:value="${town.name}"
-                                            th:selected="${town.name == radio.townName}"
                                             th:text="${town.name + ' (' + town.countyName + ')'}">
                                         Település (megye)
                                     </option>
@@ -60,11 +60,10 @@
                                 </label>
                                 <input type="number"
                                        id="frequency"
-                                       name="frequency"
                                        step="0.01"
                                        min="0"
                                        class="form-control"
-                                       th:value="${radio.frequency}"
+                                       th:field="*{frequency}"
                                        required>
                             </div>
 
@@ -74,11 +73,10 @@
                                 </label>
                                 <input type="number"
                                        id="power"
-                                       name="power"
                                        step="0.01"
                                        min="0"
                                        class="form-control"
-                                       th:value="${radio.power}"
+                                       th:field="*{power}"
                                        required>
                             </div>
 
@@ -86,9 +84,8 @@
                                 <label for="address" class="form-label fw-semibold">Cím</label>
                                 <input type="text"
                                        id="address"
-                                       name="address"
                                        class="form-control"
-                                       th:value="${radio.address != null ? radio.address : ''}">
+                                       th:field="*{address}">
                             </div>
 
                             <div class="text-center">

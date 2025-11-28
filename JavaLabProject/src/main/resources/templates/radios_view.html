@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>Magyarországi FM rádióadók</title>
@@ -29,8 +29,6 @@
                         <ul class="list-group list-group-flush mb-3">
                             <li class="list-group-item">
                                 <span class="fw-semibold text-secondary">Lokáció:</span>
-                                <span th:text="${radio.region}">Régió</span>,
-                                <span th:text="${radio.countyName}">Megye</span> megye,
                                 <span th:text="${radio.townName}">Település</span>
                             </li>
                             <li class="list-group-item">
@@ -53,7 +51,7 @@
                             </li>
                             <li class="list-group-item">
                                 <span class="fw-semibold text-secondary">Frissítve:</span>
-                                <span th:text="${radio.updatedAt != null ? radio.updatedAt : 'nincs adat'}">
+                                <span th:text="${radio.modifiedAt != null ? radio.modifiedAt : 'nincs adat'}">
                                     nincs adat
                                 </span>
                             </li>
@@ -64,7 +62,7 @@
                             </a>
                             <a th:href="@{'/radios/edit/' + ${radio.id}}"
                                class="btn btn-warning">Módosítás</a>
-                            <a th:if="${user != null and user.isAdmin == 1}"
+                            <a sec:authorize="hasRole('ADMIN')"
                                th:href="@{'/radios/delete/' + ${radio.id}}"
                                class="btn btn-danger">Törlés</a>
                         </div>

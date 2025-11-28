@@ -1,7 +1,11 @@
 package hu.gamf.javalabproject.controllers;
 
-import hu.gamf.javalabproject.models.RadioDTO;
+import hu.gamf.javalabproject.models.Radio;
 import hu.gamf.javalabproject.models.TownDTO;
+import hu.gamf.javalabproject.repositories.RadioInterfaceRepo;
+import hu.gamf.javalabproject.repositories.TownInterfaceRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.oauth2.client.OAuth2ClientSecurityMarker;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,95 +17,47 @@ import java.util.List;
 @Controller
 @RequestMapping("/radios")
 public class RadiosController {
+    @Autowired private RadioInterfaceRepo radioRepo;
+    @Autowired private TownInterfaceRepo townRepo;
 
     @GetMapping
     public String listRadios(Model model) {
-        List<RadioDTO> radios = Arrays.asList(
-                new RadioDTO(
-                        1L,
-                        "Rádió Minta 1",
-                        "Budapest",
-                        "Budapest",
-                        "Közép-Magyarország",
-                        101.5,
-                        5.0,
-                        "1051 Budapest, Példa utca 1.",
-                        LocalDateTime.now().minusDays(10),
-                        LocalDateTime.now().minusDays(1)
-                ),
-                new RadioDTO(
-                        2L,
-                        "Rádió Minta 2",
-                        "Pécs",
-                        "Baranya",
-                        "Dél-Dunántúl",
-                        98.3,
-                        3.0,
-                        "7621 Pécs, Minta tér 2.",
-                        LocalDateTime.now().minusDays(20),
-                        LocalDateTime.now().minusDays(2)
-                )
-        );
 
-        model.addAttribute("radios", radios);
+        model.addAttribute("radios", radioRepo.findAll());
         return "radios";
     }
 
     @GetMapping("/view/{id}")
-    public String viewRadio(@PathVariable Long id, Model model) {
-
-        RadioDTO radio = new RadioDTO(
-                id,
-                "Rádió Minta " + id,
-                "Budapest",
-                "Budapest",
-                "Közép-Magyarország",
-                101.5,
-                5.0,
-                "1051 Budapest, Példa utca 1.",
-                LocalDateTime.now().minusDays(10),
-                LocalDateTime.now().minusDays(1)
-        );
-
-        model.addAttribute("radio", radio);
+    public String viewRadio(@PathVariable int id, Model model) {
+        Radio selectedRadio = radioRepo.findById(id).orElse(null);
+        if (selectedRadio == null) {
+            return "radios";
+        }
+        model.addAttribute("radio", selectedRadio);
         return "radios_view";
     }
     @GetMapping("/edit/{id}")
-    public String editRadioForm(@PathVariable Long id, Model model) {
+    public String editRadioForm(@PathVariable int id, Model model) {
+        Radio selectedRadio = radioRepo.findById(id).orElse(null);
 
-        RadioDTO radio = new RadioDTO(
-                id,
-                "Rádió Minta " + id,
-                "Budapest",
-                "Budapest",
-                "Közép-Magyarország",
-                101.5,
-                5.0,
-                "1051 Budapest, Példa utca 1.",
-                LocalDateTime.now().minusDays(10),
-                LocalDateTime.now().minusDays(1)
-        );
+        if (selectedRadio == null) {
+            return "radios";
+        }
 
-        List<TownDTO> towns = Arrays.asList(
-                new TownDTO("Budapest", "Budapest"),
-                new TownDTO("Pécs", "Baranya"),
-                new TownDTO("Győr", "Győr-Moson-Sopron")
-        );
 
-        model.addAttribute("radio", radio);
-        model.addAttribute("towns", towns);
+        model.addAttribute("radio", selectedRadio);
+        model.addAttribute("towns", townRepo.findAll());
 
         return "radios_edit";
     }
 
     @PostMapping("/edit/{id}")
-    public String saveEditedRadio(@PathVariable Long id,
-                                  @RequestParam String name,
-                                  @RequestParam("town_name") String townName,
-                                  @RequestParam Double frequency,
-                                  @RequestParam Double power,
-                                  @RequestParam(required = false) String address) {
-
+    public String saveEditedRadio(@PathVariable int id, @ModelAttribute("radio") Radio radio) {
+        if  (radio == null) {
+            return "radios_edit";
+        }
+        radio.setId(id);
+        radioRepo.save(radio);
 
         return "redirect:/radios";
     }

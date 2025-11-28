@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>Magyarországi FM rádióadók</title>
@@ -57,7 +57,7 @@
                                        class="btn btn-info btn-sm m-1">Megtekintés</a>
                                     <a th:href="@{'/radios/edit/' + ${radio.id}}"
                                        class="btn btn-warning btn-sm m-1">Módosítás</a>
-                                    <a th:if="${user != null and user.isAdmin == 1}"
+                                    <a sec:authorize="hasRole('ADMIN')"
                                        th:href="@{'/radios/delete/' + ${radio.id}}"
                                        class="btn btn-danger btn-sm m-1">Törlés</a>
                                 </td>

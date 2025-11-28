@@ -35,75 +35,75 @@ public class Radio {
     public Radio() {
     }
 
+    public Radio(String townName, String name, Double frequency, Double power, String address) {
+        this.townName = townName;
+        this.name = name;
+        this.frequency = frequency;
+        this.power = power;
+        this.address = address;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTownName() {
         return townName;
     }
 
+    public void setTownName(String townName) {
+        this.townName = townName;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Double getFrequency() {
         return frequency;
     }
 
-    public Double getPower() {
-        return power;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-    public LocalDateTime getModifiedAt() { return modifiedAt; }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setTownName(String townName) {
-        this.townName = townName;
-    }
-
-
-
     public void setFrequency(Double frequency) {
         this.frequency = frequency;
+    }
+
+    public Double getPower() {
+        return power;
     }
 
     public void setPower(Double power) {
         this.power = power;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public void setModifiedAt(LocalDateTime modifiedAt) {
-        this.modifiedAt = modifiedAt;
+    public LocalDateTime getModifiedAt() {
+        return modifiedAt;
     }
 
-    @Override
-    public String toString() {
-        return "Radio{" +
-                "id=" + id +
-                ", townName='" + townName + '\'' +
-                ", frequency=" + frequency +
-                ", power=" + power +
-                ", address='" + address + '\'' +
-                ", createdAt=" + createdAt +
-                ", modifiedAt=" + modifiedAt +
-                '}';
+    public void setModifiedAt(LocalDateTime modifiedAt) {
+        this.modifiedAt = modifiedAt;
     }
 }
