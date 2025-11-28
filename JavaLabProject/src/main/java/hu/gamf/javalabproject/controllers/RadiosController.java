@@ -64,13 +64,20 @@ public class RadiosController {
 
     @GetMapping("/create")
     public String createRadioForm(Model model) {
-        System.out.println("create művelet");
+        model.addAttribute("radio", new Radio());
+        model.addAttribute("towns", townRepo.findAll());
+        return "radios_create";
+    }
+
+    @PostMapping("/create")
+    public String saveRadio(@ModelAttribute("radio") Radio radio) {
+        radioRepo.save(radio);
         return "redirect:/radios";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteRadio(@PathVariable Long id) {
-        System.out.print("Törlés művelet");
+    public String deleteRadio(@PathVariable int id) {
+        radioRepo.deleteById(id);
         return "redirect:/radios";
     }
 }

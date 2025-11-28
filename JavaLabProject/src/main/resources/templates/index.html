@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>Magyarországi FM rádióadók</title>
@@ -21,10 +21,10 @@
             <h2>FM rádióadók országos adatbázisa</h2>
             <p>Találd meg Magyarország összes FM rádióadóját, nézz statisztikákat, vagy adj hozzá új rádiót
                 regisztrált felhasználóként!</p>
-            <div th:if="${user == null}">
+            <div sec:authorize="isAnonymous()">
                 <a href="/auth/register" class="button scrolly">Csatlakozz hozzánk!</a>
             </div>
-            <div th:unless="${user == null}">
+            <div sec:authorize="isAuthenticated()">
                 <a href="/radios" class="button scrolly">Rádióadók böngészése</a>
             </div>
         </div>

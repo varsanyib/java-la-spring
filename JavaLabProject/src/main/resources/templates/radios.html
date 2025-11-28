@@ -25,7 +25,7 @@
                 <div class="radio-table-box box">
                     <h2 class="major"><span>Magyarországi FM rádióadók</span></h2>
 
-                    <div class="mb-3 text-center" th:if="${user != null}">
+                    <div class="mb-3 text-center" sec:authorize="isAuthenticated()">
                         <a th:href="@{/radios/create}" class="btn btn-success">Rádió létrehozása</a>
                     </div>
 
