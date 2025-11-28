@@ -31,10 +31,10 @@ public class AuthUserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Nincs ilyen felhasználó"));
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if (user.isAdmin()) {
-            authorities.add(new SimpleGrantedAuthority("admin"));
+        if (user.getRole().equals("ADMIN")) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         } else {
-            authorities.add(new SimpleGrantedAuthority("user"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
 
         return new org.springframework.security.core.userdetails.User(
@@ -44,12 +44,12 @@ public class AuthUserService implements UserDetailsService {
         );
     }
 
-    public void register(String username, String fullname, String rawPassword) {
+    public void registerUser(String username, String fullname, String rawPassword) {
         User user = new User();
         user.setUsername(username);
         user.setFullname(fullname);
         user.setPassword(passwordEncoder.encode(rawPassword));
-        user.setRole("user");
+        user.setRole("USER");
         userRepo.save(user);
     }
 }

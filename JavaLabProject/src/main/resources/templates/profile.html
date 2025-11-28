@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Magyarországi FM rádióadók</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}" />
+</head>
+
+<body class="homepage is-preload">
+<div id="page-wrapper">
+
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div th:replace="~{fragments/header :: nav}"></div>
+
+    <section id="banner" class="alt">
+        <div class="content">
+            <h2>Profilom</h2>
+        </div>
+    </section>
+
+    <section id="main">
+        <div class="container">
+            <div class="row gtr-200">
+                <div class="col-12">
+                    <section class="box highlight">
+                        <header>
+                            <h3 th:text="'Teljes név: ' + ${user.fullname}"></h3>
+                            <p th:text="'Felhasználónév: ' + ${user.username}"></p>
+                        </header>
+
+                        <p>
+                            <strong>Szerepkör: </strong>
+                            <span th:text="${user.role != null ? user.role : (user.admin ? 'Adminisztrátor' : 'Felhasználó')}">
+                            </span>
+                        </p>
+
+
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</div>
+
+
+<script th:src="@{/assets/js/main.js}"></script>
+</body>
+</html>

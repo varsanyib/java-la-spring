@@ -33,8 +33,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin","/admin/**").hasRole("admin")
-                        .requestMatchers("/messages/**", "/radios/**", "/admin/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/messages/**", "/radios/**", "/admin/**", "/profile/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .defaultSuccessUrl("/", true)
+                        .failureUrl("/auth/login?error")
                         .permitAll()
                 )
                 .exceptionHandling(ex -> ex

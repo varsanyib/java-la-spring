@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>500 - Szerveroldali hiba</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}" />
+</head>
+
+<body class="homepage is-preload">
+<div id="page-wrapper">
+
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div th:replace="~{fragments/header :: nav}"></div>
+
+    <section id="banner" class="alt">
+        <div class="content">
+            <h2>500 - Szerveroldali hiba</h2>
+            <p>Szerveroldali hiba történt! Próbálkozz újra később!</p>
+            <ul class="actions special">
+                <li><a href="/" class="button primary">Vissza a főoldalra</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</div>
+
+<script th:src="@{/assets/js/main.js}"></script>
+</body>
+</html>

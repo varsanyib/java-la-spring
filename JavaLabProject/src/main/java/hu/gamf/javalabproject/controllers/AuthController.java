@@ -2,6 +2,7 @@ package hu.gamf.javalabproject.controllers;
 
 import hu.gamf.javalabproject.models.User;
 import hu.gamf.javalabproject.repositories.UserInterfaceRepo;
+import hu.gamf.javalabproject.services.AuthUserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,16 +14,24 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired private UserInterfaceRepo userRepo;
+    @Autowired private AuthUserService authUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @GetMapping("/login")
-    public String showLoginPage(@RequestParam(value = "error", required = false) String errorParam, Model model) {
+    public String showLoginPage(@RequestParam(value = "error", required = false) String errorParam, @RequestParam(value="logout", required = false) String logoutParam, @RequestParam(value="registered", required = false) String registeredParam, Model model) {
         if (errorParam != null) {
             model.addAttribute("error", errorParam);
+        }
+        if (logoutParam != null) {
+            model.addAttribute("logout", logoutParam);
+        }
+        if (registeredParam != null) {
+            model.addAttribute("registered", registeredParam);
         }
         return "auth/login";
     }
 
+    /*
     @PostMapping("/login")
     public String handleLogin(@RequestParam String username, @RequestParam String password, Model model) {
         String hash = bCryptPasswordEncoder.encode(password);
@@ -40,12 +49,13 @@ public class AuthController {
         }
 
         if (loggedUser == null) {
-            model.addAttribute("error", "Hibás felhasználónév vagy jelszó.");
+            model.addAttribute("error", "Hibás felhasználónév vagy jelszó!");
             return "auth/login";
         }
 
         return "redirect:/";
     }
+    */
 
     @GetMapping("/register")
     public String showRegisterPage(@RequestParam(value = "error", required = false) String errorParam, Model model) {
@@ -54,16 +64,19 @@ public class AuthController {
         }
         return "auth/register";
     }
-
     @PostMapping("/register")
     public String handleRegister(@RequestParam String username, @RequestParam String fullname, @RequestParam String password, Model model) {
-        boolean ok = false;
-
-        if (!ok) {
-            model.addAttribute("error", "A felhasználónév már foglalt.");
+        try {
+            authUserService.registerUser(username, fullname, password);
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("error", ex.getMessage());
+            model.addAttribute("username", username);
+            model.addAttribute("fullname", fullname);
             return "auth/register";
         }
 
-        return "redirect:/auth/login";
+        // sikeres regisztráció után login oldalra irányítás
+        return "redirect:/auth/login?registered";
     }
+
 }

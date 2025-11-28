@@ -11,10 +11,8 @@
 <body class="is-preload">
 <div id="page-wrapper">
 
-    <!-- Header -->
     <div th:replace="~{fragments/header :: header}"></div>
 
-    <!-- Nav – csak login/reg menüpontok -->
     <nav id="nav">
         <ul>
             <li><a th:href="@{/index}">Kezdőlap</a></li>
@@ -23,13 +21,32 @@
         </ul>
     </nav>
 
-    <!-- Main -->
     <section id="main">
         <div class="container">
             <div class="row gtr-200" style="justify-content: center;">
                 <div class="col-6 col-12-medium">
                     <section class="box">
+
                         <h2 class="major"><span>Bejelentkezés</span></h2>
+
+                        <div th:if="${logout != null}"
+                             style="margin-bottom: 1rem; padding: 0.75rem 1rem; border-radius: 4px;
+                                    background-color: #e0f7e9; color: #136b2e; text-align: center;">
+                            <strong>Sikeres kijelentkezés!</strong>
+                        </div>
+
+                        <div th:if="${registered != null}"
+                             style="margin-bottom: 1rem; padding: 0.75rem 1rem; border-radius: 4px;
+                                    background-color: #e0f7e9; color: #136b2e; text-align: center;">
+                            <strong>Sikeres regisztráció!</strong>
+                        </div>
+
+                        <div th:if="${error != null}"
+                             style="margin-bottom: 1rem; padding: 0.75rem 1rem; border-radius: 4px;
+                                    background-color: #ffe5e5; color: #c00; text-align: center;">
+                            <strong>Hibás felhasználónév vagy jelszó!</strong>
+                        </div>
+
                         <form method="post" th:action="@{/auth/login}">
                             <div class="row gtr-50">
                                 <div class="col-12">
@@ -40,16 +57,13 @@
                                 </div>
                                 <div class="col-12">
                                     <ul class="actions special">
-                                        <li><input type="submit" class="button" value="Bejelentkezés"></li>
+                                        <li><input type="submit" class="button primary" value="Bejelentkezés"></li>
                                     </ul>
                                 </div>
 
-                                <!-- Hibaszöveg -->
-                                <div class="col-12"
-                                     th:if="${error != null}"
-                                     style="text-align:center; color:#c00;"
-                                     th:text="${error}">
-                                    <!-- error message -->
+                                <div class="col-12" style="text-align:center; font-size: 0.9rem; color: #999;">
+                                    <span>Még nincs fiókod?</span>
+                                    <a th:href="@{/auth/register}">Regisztrálj itt!</a>
                                 </div>
                             </div>
                         </form>
@@ -59,7 +73,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <div th:replace="~{fragments/footer :: footer}"></div>
 
 </div>
