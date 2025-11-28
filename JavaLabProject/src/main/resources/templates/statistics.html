@@ -44,7 +44,7 @@
                                 <div class="card-body">
                                     <div th:if="${newest != null}">
                                         <h5 class="card-title mb-3 text-primary">
-                                            <span th:text="${newest.name}">Rádió neve</span>
+                                            <span th:text="${newest.getName()}"></span>
                                             <span th:if="${newest.townName != null}">
                                                 —
                                                 <span th:text="${newest.townName}">Település</span>
@@ -79,13 +79,12 @@
                                 </div>
                             </div>
 
-                            <!-- Megyénkénti rádióadók – Chart.js -->
                             <div class="card shadow-sm mt-4" style="width: 100%;">
                                 <div class="card-header bg-secondary text-white">
-                                    Megyénkénti rádióadók száma
+                                    Frekvenciaeloszlás
                                 </div>
                                 <div class="card-body">
-                                    <canvas id="countyChart" height="120"></canvas>
+                                    <canvas id="chartX" height="120"></canvas>
                                 </div>
                             </div>
 
@@ -115,17 +114,17 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    const countyLabels = /*[[${countyNames}]]*/ ["Budapest", "Pest", "Baranya"];
-    const countyData   = /*[[${countyCounts}]]*/ [12, 8, 5];
+    const freqLabels = [[${freqRanges}]];
+    const freqData   = [[${freqCounts}]];
 
-    const ctx = document.getElementById('countyChart').getContext('2d');
+    const ctx = document.getElementById('chartX').getContext('2d');
     const countyChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: countyLabels,
+            labels: freqLabels,
             datasets: [{
-                label: 'Rádióadók száma',
-                data: countyData,
+                label: 'Tartományok száma',
+                data: freqData,
                 backgroundColor: 'rgba(54, 162, 235, 0.6)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1

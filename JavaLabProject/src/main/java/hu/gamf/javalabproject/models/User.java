@@ -2,6 +2,8 @@ package hu.gamf.javalabproject.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -14,16 +16,20 @@ public class User {
     private String fullname;
     private String password;
     private String role;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
 
     public User() {
     }
 
-    public User(Long id, String username, String fullname, String password, String role) {
+    public User(Long id, String username, String fullname, String password, String role, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;
         this.username = username;
         this.fullname = fullname;
         this.password = password;
         this.role = role;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
     }
 
     public Long getId() {
@@ -66,6 +72,22 @@ public class User {
         this.role = role;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(LocalDateTime modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -73,7 +95,9 @@ public class User {
                 ", username='" + username + '\'' +
                 ", fullname='" + fullname + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + role +
+                ", role='" + role + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
                 '}';
     }
 }

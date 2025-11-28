@@ -1,44 +1,42 @@
 package hu.gamf.javalabproject.controllers;
 
-import hu.gamf.javalabproject.models.NewestRadioDTO;
+import hu.gamf.javalabproject.models.Radio;
+import hu.gamf.javalabproject.repositories.CountyInterfaceRepo;
+import hu.gamf.javalabproject.repositories.RadioInterfaceRepo;
+import hu.gamf.javalabproject.services.FrequencyBinderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
 @RequestMapping("/statistics")
 public class StatisticsController {
+    @Autowired private RadioInterfaceRepo radioRepo;
 
     @GetMapping
     public String showStatistics(Model model) {
+        model.addAttribute("newest", radioRepo.findNewestRadio());
 
-        int totalCount = 42;
-        model.addAttribute("count", totalCount);
+        Map<String, Integer> freqBuckets = new LinkedHashMap<>();
+        int totalRadios = 0;
 
-        NewestRadioDTO newestRadio = new NewestRadioDTO(
-                "Rádió Minta",
-                "Budapest",
-                101.5,
-                5.0,
-                "1051 Budapest, Példa utca 1.",
-                LocalDateTime.now().minusDays(1)
-        );
-        model.addAttribute("newest", newestRadio);
+        for (Radio radio : radioRepo.findAll()) {
+            double f = radio.getFrequency();
+            String range = FrequencyBinderService.getRange(f);
 
-        List<String> countyNames = Arrays.asList(
-                "Budapest", "Pest", "Baranya", "Győr-Moson-Sopron"
-        );
-        List<Integer> countyCounts = Arrays.asList(
-                12, 8, 5, 7
-        );
-        model.addAttribute("countyNames", countyNames);
-        model.addAttribute("countyCounts", countyCounts);
+            freqBuckets.put(range, freqBuckets.getOrDefault(range, 0) + 1);
+            totalRadios++;
+        }
+
+        model.addAttribute("count", totalRadios);
+        model.addAttribute("freqRanges", new ArrayList<>(freqBuckets.keySet()));
+        model.addAttribute("freqCounts", new ArrayList<>(freqBuckets.values()));
 
         return "statistics";
     }
