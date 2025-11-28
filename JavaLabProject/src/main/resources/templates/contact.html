@@ -24,7 +24,6 @@
             <div class="col-lg-8 col-md-10">
                 <div class="card shadow-sm">
 
-                    <!-- Sikeres küldés üzenet -->
                     <div class="alert alert-success text-center"
                          th:if="${success}">
                         Üzenet sikeresen elküldve!
@@ -35,43 +34,40 @@
                             Kapcsolatfelvételi űrlap
                         </h2>
 
-                        <form method="post" th:action="@{/contact}">
+                        <form method="post" th:action="@{/contact}" th:object="${contactDTO}">
                             <div class="mb-3">
-                                <label for="name" class="form-label fw-semibold">Teljes név</label>
+                                <label for="fullname" class="form-label fw-semibold">Teljes név</label>
                                 <input type="text"
                                        class="form-control"
-                                       id="name"
-                                       name="name"
-                                       th:value="${user != null} ? ${user.name} : ''"
-                                       th:attr="required=${user == null} ? 'required' : null">
+                                       id="fullname"
+                                       th:field="*{fullname}"
+                                       required>
+                                <p th:if="${#fields.hasErrors('fullname')}"
+                                   th:errors="*{fullname}"></p>
                             </div>
-
-
 
                             <div class="mb-3">
                                 <label for="subject" class="form-label fw-semibold">Tárgy</label>
                                 <input type="text"
                                        class="form-control"
                                        id="subject"
-                                       name="subject"
+                                       th:field="*{subject}"
                                        required>
+                                <p th:if="${#fields.hasErrors('subject')}"
+                                   th:errors="*{subject}"></p>
                             </div>
 
                             <div class="mb-3">
                                 <label for="message" class="form-label fw-semibold">Üzenet</label>
                                 <textarea class="form-control"
                                           id="message"
-                                          name="message"
+                                          th:field="*{message}"
                                           rows="5"
                                           required
                                           maxlength="1000"></textarea>
+                                <p th:if="${#fields.hasErrors('message')}"
+                                   th:errors="*{message}"></p>
                             </div>
-
-                            <!-- Bejelentkezett user esetén hidden userId -->
-                            <input type="hidden"
-                                   name="userId"
-                                   th:if="${user != null}"
-                                   th:value="${user.id}"/>
 
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary px-4">

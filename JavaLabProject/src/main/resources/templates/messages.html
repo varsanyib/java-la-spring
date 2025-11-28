@@ -35,7 +35,6 @@
                                 <thead class="table-light">
                                 <tr>
                                     <th>Név</th>
-                                    <th>Felhasználónév</th>
                                     <th>Tárgy</th>
                                     <th>Üzenet</th>
                                     <th>Elküldés időpontja</th>
@@ -51,11 +50,10 @@
 
                                 <!-- Üzenetek listázása -->
                                 <tr th:each="msg : ${messages}">
-                                    <td th:text="${msg.name}">Név</td>
-                                    <td th:text="${msg.username != null ? msg.username : '-'}">Felhasználónév</td>
+                                    <td th:text="${msg.fullname}">Név</td>
                                     <td th:text="${msg.subject}">Tárgy</td>
                                     <td style="max-width:380px; word-break:break-word;"
-                                        th:text="${msg.body}">Üzenet szövege</td>
+                                        th:text="${msg.message}">Üzenet szövege</td>
                                     <td th:text="${msg.createdAt != null ? msg.createdAt : 'nincs adat'}">
                                         dátum/idő
                                     </td>

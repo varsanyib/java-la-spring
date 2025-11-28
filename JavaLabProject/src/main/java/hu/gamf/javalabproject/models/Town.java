@@ -14,9 +14,9 @@ public class Town {
     private String name;
     @Column(name = "county_name")
     private String countyName;
-    @Column(name = "created_at")
+    @Column(name = "created_at",  insertable = false, updatable = false)
     LocalDateTime createdAt;
-    @Column(name = "updated_at")
+    @Column(name = "updated_at",   insertable = false, updatable = false)
     LocalDateTime modifiedAt;
 
     public Town() {

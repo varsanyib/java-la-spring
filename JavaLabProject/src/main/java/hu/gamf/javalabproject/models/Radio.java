@@ -16,9 +16,9 @@ public class Radio {
     private Double frequency;
     private Double power;
     private String address;
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", insertable = false, updatable = false)
     private LocalDateTime modifiedAt;
 
     public Radio(int id, String townName, String name, Double frequency, Double power, String address, LocalDateTime createdAt,  LocalDateTime modifiedAt) {
@@ -72,7 +72,7 @@ public class Radio {
         this.townName = townName;
     }
 
-    
+
 
     public void setFrequency(Double frequency) {
         this.frequency = frequency;

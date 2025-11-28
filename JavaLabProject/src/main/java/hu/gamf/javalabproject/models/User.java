@@ -16,7 +16,9 @@ public class User {
     private String fullname;
     private String password;
     private String role;
+    @Column(insertable = false, updatable = false)
     private LocalDateTime createdAt;
+    @Column(insertable = false, updatable = false)
     private LocalDateTime modifiedAt;
 
     public User() {
