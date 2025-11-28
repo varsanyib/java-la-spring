@@ -1,5 +1,9 @@
 package hu.gamf.javalabproject.controllers;
 
+import hu.gamf.javalabproject.models.User;
+import hu.gamf.javalabproject.repositories.UserInterfaceRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
+    @Autowired private UserInterfaceRepo userRepo;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @GetMapping("/login")
     public String showLoginPage(@RequestParam(value = "error", required = false) String errorParam, Model model) {
@@ -18,14 +24,26 @@ public class AuthController {
 
     @PostMapping("/login")
     public String handleLogin(@RequestParam String username, @RequestParam String password, Model model) {
-        boolean ok = false;
+        String hash = bCryptPasswordEncoder.encode(password);
 
-        if (!ok) {
+        Iterable<User> users = userRepo.findAll();
+
+        User loggedUser = null;
+
+        for (User user : users) {
+            if (user.getUsername().equals(username) && bCryptPasswordEncoder.matches(password, user.getPassword())) {
+                loggedUser = user;
+                boolean isAdmin = user.isAdmin();
+                break;
+            }
+        }
+
+        if (loggedUser == null) {
             model.addAttribute("error", "Hibás felhasználónév vagy jelszó.");
             return "auth/login";
         }
 
-        return "redirect:/index";
+        return "redirect:/";
     }
 
     @GetMapping("/register")
