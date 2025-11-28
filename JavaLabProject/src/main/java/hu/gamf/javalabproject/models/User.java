@@ -13,17 +13,17 @@ public class User {
     private String username;
     private String fullname;
     private String password;
-    private boolean isAdmin;
+    private String role;
 
     public User() {
     }
 
-    public User(Long id, String username, String fullname, String password, boolean isAdmin) {
+    public User(Long id, String username, String fullname, String password, String role) {
         this.id = id;
         this.username = username;
         this.fullname = fullname;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.role = role;
     }
 
     public Long getId() {
@@ -58,12 +58,27 @@ public class User {
         this.password = password;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
+    public String getRole() {
+        return role;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Boolean isAdmin() {
+        return role.equals("admin");
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }
 

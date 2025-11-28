@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/contact")
 public class ContactController {
 
-    @GetMapping("/contact")
+    @GetMapping
     public String showContactForm(@RequestParam(value = "success", required = false) Boolean success, Model model) {
         if (success != null && success) {
             model.addAttribute("success", true);
@@ -16,7 +17,7 @@ public class ContactController {
         return "contact";
     }
 
-    @PostMapping("/contact")
+    @PostMapping
     public String handleContactForm(@RequestParam(required = false) Long userId, @RequestParam String name, @RequestParam String subject, @RequestParam String message, RedirectAttributes redirectAttributes) {
         System.out.println(name);
         System.out.println(message);

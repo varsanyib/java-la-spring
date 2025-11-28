@@ -4,15 +4,17 @@ import hu.gamf.javalabproject.models.MessageDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 @Controller
+@RequestMapping("/messages")
 public class MessageController {
 
-    @GetMapping("/messages")
+    @GetMapping
     public String showMessages(Model model) {
         List<MessageDTO> messages = Arrays.asList(
                 new MessageDTO(

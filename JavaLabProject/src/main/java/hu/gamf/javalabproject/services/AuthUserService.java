@@ -32,9 +32,9 @@ public class AuthUserService implements UserDetailsService {
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         if (user.isAdmin()) {
-            authorities.add(new SimpleGrantedAuthority("ADMIN"));
+            authorities.add(new SimpleGrantedAuthority("admin"));
         } else {
-            authorities.add(new SimpleGrantedAuthority("USER"));
+            authorities.add(new SimpleGrantedAuthority("user"));
         }
 
         return new org.springframework.security.core.userdetails.User(
@@ -49,7 +49,7 @@ public class AuthUserService implements UserDetailsService {
         user.setUsername(username);
         user.setFullname(fullname);
         user.setPassword(passwordEncoder.encode(rawPassword));
-        user.setAdmin(false);
+        user.setRole("user");
         userRepo.save(user);
     }
 }

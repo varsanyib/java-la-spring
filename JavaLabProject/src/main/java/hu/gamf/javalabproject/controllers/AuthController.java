@@ -2,6 +2,7 @@ package hu.gamf.javalabproject.controllers;
 
 import hu.gamf.javalabproject.models.User;
 import hu.gamf.javalabproject.repositories.UserInterfaceRepo;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
