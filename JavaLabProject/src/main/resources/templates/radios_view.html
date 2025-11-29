@@ -27,9 +27,9 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush mb-3">
-                            <li class="list-group-item">
+                            <li class="list-group-item" th:each="t : ${towns}" th:if="${radio.townName == t.name}">
                                 <span class="fw-semibold text-secondary">Lokáció:</span>
-                                <span th:text="${radio.townName}">Település</span>
+                                <span th:each="c : ${counties}" th:if="${c.name == t.countyName}" th:text="${c.region + ', ' + t.countyName + ' megye, ' + radio.townName}">Település</span>
                             </li>
                             <li class="list-group-item">
                                 <span class="fw-semibold text-secondary">Cím:</span>

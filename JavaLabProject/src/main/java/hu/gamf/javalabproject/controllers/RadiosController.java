@@ -1,7 +1,10 @@
 package hu.gamf.javalabproject.controllers;
 
+import hu.gamf.javalabproject.models.County;
 import hu.gamf.javalabproject.models.Radio;
+import hu.gamf.javalabproject.models.Town;
 import hu.gamf.javalabproject.models.TownDTO;
+import hu.gamf.javalabproject.repositories.CountyInterfaceRepo;
 import hu.gamf.javalabproject.repositories.RadioInterfaceRepo;
 import hu.gamf.javalabproject.repositories.TownInterfaceRepo;
 import jakarta.validation.Valid;
@@ -21,6 +24,7 @@ import java.util.List;
 public class RadiosController {
     @Autowired private RadioInterfaceRepo radioRepo;
     @Autowired private TownInterfaceRepo townRepo;
+    @Autowired private CountyInterfaceRepo countyRepo;
 
     @GetMapping
     public String listRadios(Model model) {
@@ -31,11 +35,16 @@ public class RadiosController {
 
     @GetMapping("/view/{id}")
     public String viewRadio(@PathVariable int id, Model model) {
+        Iterable<Town> towns  = townRepo.findAll();
+        Iterable<County> counties = countyRepo.findAll();
+
         Radio selectedRadio = radioRepo.findById(id).orElse(null);
         if (selectedRadio == null) {
             return "radios";
         }
         model.addAttribute("radio", selectedRadio);
+        model.addAttribute("towns", towns);
+        model.addAttribute("counties", counties);
         return "radios_view";
     }
     @GetMapping("/edit/{id}")
