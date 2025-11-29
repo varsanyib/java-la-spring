@@ -10,21 +10,21 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private int id;
 
     private String username;
     private String fullname;
     private String password;
     private String role;
-    @Column(insertable = false, updatable = false)
+    @Column(name = "created_at", insertable = false, updatable = false, nullable = true)
     private LocalDateTime createdAt;
-    @Column(insertable = false, updatable = false)
+    @Column(name = "modified_at", insertable = false, updatable = false, nullable = true)
     private LocalDateTime modifiedAt;
 
     public User() {
     }
 
-    public User(Long id, String username, String fullname, String password, String role, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public User(int id, String username, String fullname, String password, String role, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;
         this.username = username;
         this.fullname = fullname;
@@ -34,11 +34,11 @@ public class User {
         this.modifiedAt = modifiedAt;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
